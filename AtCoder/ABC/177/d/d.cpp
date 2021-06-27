@@ -24,39 +24,51 @@
 #define fastio ios::sync_with_stdio(0); cin.tie(0); cout.tie(0)
 #define int long long
 #define uint unsigned long long
-#define inf 0x3f3f3f3f3f3f3f3f
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
+struct UnionFind {
+
+  vector<int> id;
+  vector<int> Size;
+
+  UnionFind(int n) {
+    id.resize(n); Size.resize(n, 1);
+    for (int i = 0; i < n; i++) id[i] = i;
+  }
+
+  int find(int u) {
+    return (id[u] == u) ? u : id[u] = find(id[u]);
+  }
+
+  bool uni(int u, int v) {
+    u = find(u);
+    v = find(v);
+    if (u == v) return false;
+    id[v] = u;
+    Size[u] += Size[v];
+    return true;
+  }
+
+  int size(int u) {
+    u = find(u);
+    return Size[u];
+  }
+};
+
+int n, m;
 
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
-    }
-
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
+    cin >> n >> m;
+    UnionFind dsu(n);
+    int res = 1;
+    rep (i, m) {
+        int ai, bi;
+        cin >> ai >> bi;
+        ai--, bi--;
+        dsu.uni(ai, bi);
+        res = max(res, dsu.size(ai));
     }
     cout << res << endl;
 }

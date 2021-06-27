@@ -28,35 +28,29 @@
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
+const int mn = 210, cuts = 13;
+int f[mn][cuts];
+
+int len;
+
+int go(int idx, int rem) {
+    if (rem < 0) return 0;
+    if (rem == 0) return 1;
+    if (idx == len) {
+        return rem == 0;
+    }
+    int& res = f[idx][rem];
+    if (~res) return res;
+    res = 0;
+    res += go(idx + 1, rem) + go(idx + 1, rem - 1);
+    return res;
+}
 
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
-    }
-
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
-    }
+    cin >> len;
+    memset(f, -1, sizeof f);
+    int res = go(1, 11);
     cout << res << endl;
+    return 0;
 }

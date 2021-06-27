@@ -28,35 +28,20 @@
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
-
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
+    int n; cin >> n;
+    vector<int> a(n), b(n);
+    rep (i,n) {
+        cin >> a[i] >> b[i];
     }
 
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
+    for (int i = 0; i + 2 < n; i++) {
+        if (a[i] == b[i] and a[i+1] == b[i+1] and a[i+2] == b[i+2]) {
+            cout << "Yes" << endl;
+            return 0;
+        }
     }
-    cout << res << endl;
+    cout << "No" << endl;
+    return 0;
 }

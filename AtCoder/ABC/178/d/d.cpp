@@ -28,35 +28,33 @@
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
+const int mn = 2010;
+int S;
+int dp[mn];
+const int md = 1e9 + 7;
+
+int f(int sum) {
+    if (sum > S) return 0;
+    if (sum == S) {
+        return 1;
+    }
+    int& res = dp[sum];
+    if (~res) return res;
+    res = 0;
+    for (int i = 3; i <= S - sum; i++) {
+        res += f(sum + i);
+        if (res >= md) res -= md;
+    }
+    return res;
+}
 
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
-    }
+    cin >> S;
 
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
-    }
+    memset(dp, -1, sizeof dp);
+    int res = f(0);
+    
     cout << res << endl;
+    return 0;
 }

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <cstdio>
 #include <cstdlib>
 #include <algorithm>
@@ -24,39 +25,27 @@
 #define fastio ios::sync_with_stdio(0); cin.tie(0); cout.tie(0)
 #define int long long
 #define uint unsigned long long
+#define ld long double
 #define inf 0x3f3f3f3f3f3f3f3f
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
-
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
+    int n;
+    cin >> n;
+    int man = 0, euc = 0, norm = -1;
+
+    rep(i, n) {
+        int ai;
+        cin >> ai;
+        ai = abs(ai);
+        man += ai;
+        euc += ai*ai;
+        norm = max(norm, ai);
     }
 
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
-    }
-    cout << res << endl;
+    cout << man << endl;
+    cout << setprecision(18) << sqrt(euc) << endl;
+    cout << norm << endl;
 }

@@ -28,35 +28,40 @@
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
+const int md = 998244353; 
+const int mn = 2e5 + 10;
+int dp[mn];
+int n;
+
+int f(const vector<int>&a, int idx) {
+    if (idx == n) {return 1;}
+    int& res = dp[idx];
+    if (~res) return res;
+
+    res = (0);
+    for (int i = 0; i < a.size(); i++) {
+        int d = a[i];
+        if (idx + d > n) break;
+        res += f(a, idx + d);
+        if (res >= md) res -= md;
+    }
+    return res;
+}
 
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
+    int k;
+    cin >> n >> k;
+    unordered_map<int, int> mp;
+    rep (i,k) {
+        int l , r; cin >> l >> r;
+        for (; l<=r; l++) mp[l]++;
+    }
+    vector<int> a;
+    for (auto p : mp)  {
+        a.push_back(p.first);
     }
 
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
-    }
-    cout << res << endl;
+    memset(dp, -1, sizeof dp);
+    cout << f(a, 1) << endl;
 }

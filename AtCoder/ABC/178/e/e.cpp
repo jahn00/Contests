@@ -27,36 +27,28 @@
 #define inf 0x3f3f3f3f3f3f3f3f
 #define endl '\n'
 using namespace std;
-
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
-
+ 
+ 
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
+    int n; cin >> n;
+    // vector<pair<int,int>> a(n);
+    set <pair<int,int>> st;
     rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
+        int x, y;
+        cin >> x >> y;
+        st.insert(make_pair(x, y));
     }
-
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
+    int maxi = -1, mini = inf;
+    for (auto& p : st) {
+        int x = p.first, y = p.second;
+        maxi = max(maxi, x + y);
+        mini = min(mini, x + y);
+ 
     }
+    int res = abs(maxi - mini);
     cout << res << endl;
+ 
+    return 0;
+ 
 }

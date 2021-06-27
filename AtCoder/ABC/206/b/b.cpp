@@ -25,38 +25,25 @@
 #define int long long
 #define uint unsigned long long
 #define inf 0x3f3f3f3f3f3f3f3f
-#define endl '\n'
+#define nl '\n'
 using namespace std;
-
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
 
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
+    int n; cin >> n;
+    /*
+    find the first tri# that exceeds n
+    */
+    int l = 0, r = 1e5;
+    while (l < r) {
+	    int mid = l + (r - l) / 2;
+	    int tri = mid*(mid + 1)/2;
+	    if (tri < n) {
+		    l = mid + 1;
+	    }
+	    else {
+		    r = mid;
+	    }
     }
-
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
-    }
-    cout << res << endl;
+    cout << l << endl;
 }

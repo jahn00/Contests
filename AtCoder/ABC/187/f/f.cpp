@@ -28,35 +28,17 @@
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
+class Solution {
+public:
+    int minimumIncompatibility(vector<int>& nums, int k) {
+        return -1;
+    }
+};
 
 signed main() {
-    fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
-    }
-
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
-    }
-    cout << res << endl;
+    Solution s;
+    vector<int> a = {1,2,1,4};
+    int k = 2;
+    cout << s.minimumIncompatibility(a, k) << endl;
+    return 0;
 }

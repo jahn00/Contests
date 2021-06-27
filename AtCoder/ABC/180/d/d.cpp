@@ -28,35 +28,24 @@
 #define endl '\n'
 using namespace std;
 
-const int md = 998244353, mn = 3010;
-int n, s;
-int f[mn][mn];
-int a[mn];
+bool is_over(uint a, uint b) {
+    if (!a or !b)  return false;
+    uint res = a*b;
+    if (res / b == a) return false;
+    if (res / a == b) return false;
+    return true;
+}
 
 signed main() {
     fastio;
-    cin >> n >> s;
-    memset(f, 0, sizeof f);
-    rep (i, n) {
-      int ai;
-      cin >> ai;
-      a[i] = ai;
+    uint x,y,a,b,res=0;
+    cin >> x >> y >> a >> b;
+    while (1) {
+        if (a >= y/x) break;
+        if (x*a >= x+b) break;
+        res++;
+        x *= a;
     }
-
-    int res = 0;
-    rep (i, n) {
-      rep (j, s + 1) {
-        int& ff = f[i+1][j];
-        ff += f[i][j];
-        if (j - a[i] > 0)
-          ff += f[i][j - a[i]];
-        else if (j - a[i] == 0) 
-          ff += i + 1;
-        ff %= md;
-      }
-      res += (f[i + 1][s] * (n - i)) % md;
-      res %= md;
-      f[i + 1][s] = 0;
-    }
+    res += (y-1-x)/b;
     cout << res << endl;
 }
