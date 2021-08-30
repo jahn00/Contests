@@ -7,6 +7,9 @@
 			"command": "/usr/bin/clang++",
 			"args": [
 				"-std=c++17",
+				"-Wall",
+				"-Wno-sign-compare",
+				"-Wno-unused-result",
 				"${file}",
 				"-o",
 				"${fileDirname}/${fileBasenameNoExtension}"

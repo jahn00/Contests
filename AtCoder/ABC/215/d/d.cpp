@@ -40,44 +40,47 @@
 #define nl '\n'
 using namespace std;
 
-int n, k;
+const int mxn = 1e5 + 5;
+int sieve[mxn];
 
-int f(int a, int take) {
-    int x = a - take;
-    return (a * (a + 1) / 2) - (x * (x + 1) / 2);
+
+vector<int> f(int x) {
+    vector<int> prime_factors;
+    for (int i = 2; i * i <= x; i++) {
+        if (x % i) continue;
+        prime_factors.push_back(i);
+        while (x % i == 0) {
+            x /= i;
+        }
+    }
+    if (x > 2) prime_factors.push_back(x);
+    return prime_factors;
 }
 
 signed main() {
     fastio;
-    cin >> n >> k;
-    priority_queue<int> pq;
+    int N, M;
+    cin >> N >> M;
+    vector<int> a(N), primes;
+    rep(i, N) cin >> a[i];
+    vector<int> line(M + 1);
+    unordered_set<int> used_primes;
+    for (auto& ai : a) {
 
-    rep(i, n) {int x; cin >> x; pq.emplace(x); }
+        auto prime_factors = f(ai);
 
-    int res = 0;
-    while (k) {
-        int best = pq.top(); pq.pop();
-        int take;
-        if (pq.size() == 0) {
-            // if there is no next best, just take current element
-            take = min(k, best);
-            res += f(best, take);
-            best -= take;
-            if (best == 0) break;
-            pq.emplace(best);
-            k -= take;
-        }
-        else {
-            int nbest = pq.top(); pq.pop();
-            take = min(k, best - nbest + 1);
-            res += f(best, take);
-            best -= take;
-            pq.emplace(nbest);
-            if (best > 0) pq.emplace(best);
-            k -= take;
+        for (auto& p : prime_factors) {
+            if (used_primes.count(p)) continue;
+
+            for (int j = p; j <= M; j += p) {
+                line[j] = 1;
+            }
+
+            used_primes.emplace(p);
         }
     }
-    cout << res << endl;
-    return 0;
+    // cout << "USED PRIMES" << nl;
+    // dbgstd(used_primes);
 
+    cout << M - accumulate(all(line), 0) << nl; for (int i = 1; i <= M; i++) if(!line[i]) cout << i << nl;
 }
