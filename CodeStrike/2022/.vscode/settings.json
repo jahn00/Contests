@@ -68,7 +68,6 @@
         "unordered_map": "cpp",
         "unordered_set": "cpp",
         "utility": "cpp",
-        "vector": "cpp",
-        "list": "cpp"
+        "vector": "cpp"
     }
 }
