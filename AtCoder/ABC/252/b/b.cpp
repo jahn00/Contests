@@ -18,9 +18,6 @@
 #include <unordered_set>
 #include <vector>
 #define print(x) cout << (#x) << " is " << (x) << endl;
-#define printstd(x)                                                           \
-    for (auto asdf = x.begin(); asdf != x.end(); asdf++) cout << *asdf << ' '; \
-    cout << endl;
 #define rep(i, n) for(int i = 0; i < (int) n; i++)
 #define pb push_back
 #define eb emplace_back
@@ -33,5 +30,23 @@ using namespace std;
 
 signed main() {
     fastio;
-    cout << "Hello world!" << endl;
+    int n, k; cin >> n >> k;
+    vector<int> a(n);
+    int best = -1;
+    rep (i, n) {
+        cin >> a[i];
+        best = max(best, a[i]);
+    }
+    bool res = false;
+    rep (i, k) {
+        int b; cin >> b;
+        b--;
+        res |= (best == a[b]);
+    }
+    if (res) {
+        cout << "Yes" << endl;
+    }
+    else {
+        cout << "No" << endl;
+    }
 }

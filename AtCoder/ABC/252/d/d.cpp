@@ -18,9 +18,6 @@
 #include <unordered_set>
 #include <vector>
 #define print(x) cout << (#x) << " is " << (x) << endl;
-#define printstd(x)                                                           \
-    for (auto asdf = x.begin(); asdf != x.end(); asdf++) cout << *asdf << ' '; \
-    cout << endl;
 #define rep(i, n) for(int i = 0; i < (int) n; i++)
 #define pb push_back
 #define eb emplace_back
@@ -31,7 +28,35 @@
 #define nl '\n'
 using namespace std;
 
+using ll = long long;
+
+ll nc3(ll n) {
+    return n * (n - 1) * (n - 2) / 6;
+}
+
+ll nc2(ll n) {
+    return n * (n - 1) / 2;
+}
+
 signed main() {
     fastio;
-    cout << "Hello world!" << endl;
+    int n; cin >> n;
+    vector<ll> a(n);
+    unordered_map<int, vector<int>> mp; // val -> [idxs]
+    rep(i, n) {
+        int x; cin >> x;
+        a[i] = x;
+        mp[x].push_back(i);
+    }
+    ll res = nc3(n);
+    //cerr << "initial nc3: " << res << nl;
+    int uniques = mp.size();
+
+    for (auto p : mp) {
+        int val = p.first;
+        int count = p.second.size();
+        res -= nc3(count);
+        res -= (nc2(count) * (n - count));
+    }
+    cout << res << endl;
 }

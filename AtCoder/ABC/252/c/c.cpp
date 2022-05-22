@@ -18,9 +18,6 @@
 #include <unordered_set>
 #include <vector>
 #define print(x) cout << (#x) << " is " << (x) << endl;
-#define printstd(x)                                                           \
-    for (auto asdf = x.begin(); asdf != x.end(); asdf++) cout << *asdf << ' '; \
-    cout << endl;
 #define rep(i, n) for(int i = 0; i < (int) n; i++)
 #define pb push_back
 #define eb emplace_back
@@ -33,5 +30,26 @@ using namespace std;
 
 signed main() {
     fastio;
-    cout << "Hello world!" << endl;
+    int n; cin >> n;
+    vector<vector<int>> a(10); // int -> [idx]
+    rep(_, n) {
+        string s; cin >> s;
+        rep (i, 10) {
+            a[s[i] - '0'].push_back(i);
+        }
+    }
+    int res = 1e9;
+    for (auto& x : a) {
+        sort(all(x));
+        set<int> visited_times;
+        for (auto& idx : x) {
+            while (visited_times.count(idx)) {
+                idx += 10;
+            }
+            visited_times.emplace(idx);
+        }
+        sort(all(x));
+        res = min(x.back(), res);
+    }
+    cout << res << endl;
 }

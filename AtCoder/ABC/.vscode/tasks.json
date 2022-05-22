@@ -3,14 +3,15 @@
 	"tasks": [
 		{
 			"type": "cppbuild",
-			"label": "C/C++: clang++ build active file",
-			"command": "/usr/bin/clang++",
+			"label": "C/C++: g++.exe build active file",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
 			"args": [
+				"-std=c++17",
 				"-fdiagnostics-color=always",
+				"-g",
 				"${file}",
 				"-o",
-				"${fileDirname}/${fileBasenameNoExtension}",
-				"-std=c++17"
+				"${fileDirname}\\${fileBasenameNoExtension}.exe"
 			],
 			"options": {
 				"cwd": "${fileDirname}"
@@ -22,7 +23,7 @@
 				"kind": "build",
 				"isDefault": true
 			},
-			"detail": "compiler: /usr/bin/clang++"
+			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
 		}
 	]
 }

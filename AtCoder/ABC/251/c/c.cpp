@@ -18,9 +18,6 @@
 #include <unordered_set>
 #include <vector>
 #define print(x) cout << (#x) << " is " << (x) << endl;
-#define printstd(x)                                                           \
-    for (auto asdf = x.begin(); asdf != x.end(); asdf++) cout << *asdf << ' '; \
-    cout << endl;
 #define rep(i, n) for(int i = 0; i < (int) n; i++)
 #define pb push_back
 #define eb emplace_back
@@ -33,5 +30,20 @@ using namespace std;
 
 signed main() {
     fastio;
-    cout << "Hello world!" << endl;
+    int n;
+    cin >> n;
+    unordered_set<string> st; // string -> score
+    priority_queue<pair<int, int>> pq;
+
+    rep(i, n) {
+        string s; int score;
+        cin >> s >> score;
+        //cout << s << " " << score << nl;
+        if (st.count(s)) continue;
+        st.insert(s);
+        pq.emplace(score, -(i + 1));
+    }
+    auto res = pq.top(); pq.pop();
+    cout << -res.second << endl;
+    return 0;
 }

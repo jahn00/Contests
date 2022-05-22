@@ -18,9 +18,6 @@
 #include <unordered_set>
 #include <vector>
 #define print(x) cout << (#x) << " is " << (x) << endl;
-#define printstd(x)                                                           \
-    for (auto asdf = x.begin(); asdf != x.end(); asdf++) cout << *asdf << ' '; \
-    cout << endl;
 #define rep(i, n) for(int i = 0; i < (int) n; i++)
 #define pb push_back
 #define eb emplace_back
@@ -31,7 +28,9 @@
 #define nl '\n'
 using namespace std;
 
+
+
 signed main() {
     fastio;
-    cout << "Hello world!" << endl;
+    Solution _s();
 }
