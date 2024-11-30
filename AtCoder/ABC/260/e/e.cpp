@@ -33,17 +33,4 @@ using namespace std;
 
 signed main() {
     fastio;
-    string s;
-    cin >> s;
-    vector<int> mp(26);
-    mp[s[0] - 'a']++;
-    mp[s[1] - 'a']++;
-    mp[s[2] - 'a']++;
-    for (int i = 0; i < 26; i++) {
-        if (mp[i] == 1) {
-            cout << char(i + 'a') << endl;
-            return 0;
-        }
-    }
-    cout << -1 << endl;
 }

@@ -31,19 +31,44 @@
 #define nl '\n'
 using namespace std;
 
+using ll = long long;
+
+
+int n, x, y;
+
+const int RED = 0;
+const int BLU = 1;
+
+
 signed main() {
     fastio;
-    string s;
-    cin >> s;
-    vector<int> mp(26);
-    mp[s[0] - 'a']++;
-    mp[s[1] - 'a']++;
-    mp[s[2] - 'a']++;
-    for (int i = 0; i < 26; i++) {
-        if (mp[i] == 1) {
-            cout << char(i + 'a') << endl;
-            return 0;
+    cin >> n >> x >> y;
+
+    // quantity, rank, color
+    function<ll(ll, int, int)> f = [&](ll count, int rank, int color) {
+        if (rank == 1) {
+            if (color == BLU) {
+                return 1LL * count;
+            }
+            else return 0LL;
         }
-    }
-    cout << -1 << endl;
+        ll lsum = 0, rsum = 0;
+        if (color == RED) {
+            ll reds = f(count, rank - 1, RED);
+            ll blus = f(x * count, rank, BLU);
+            lsum = reds + blus;
+        }
+
+        if (color == BLU) {
+            ll reds = f(count, rank - 1, RED);
+            ll blus = f(y * count, rank - 1, BLU);
+            rsum = reds + blus;
+        }
+
+        return max(lsum, rsum);
+
+    };
+
+    cout << f(1LL, n, RED) << endl;
+
 }
